@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__awslabs.aws-documentation-mcp-server__read_documentation",
+      "mcp__awslabs.aws-documentation-mcp-server__read_sections",
+      "mcp__awslabs.aws-documentation-mcp-server__search_documentation",
+      "mcp__awslabs.aws-documentation-mcp-server__recommend"
+    ]
+  }
+}
