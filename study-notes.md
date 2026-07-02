@@ -110,7 +110,35 @@ Credencial corporativa → AD valida → AD Connector (ponte) → IAM Identity C
 
 **Técnica de eliminação:** procurar contradição direta entre opção e requisito — ex.: opção diz "criar usuários IAM automaticamente" quando o requisito é "sem criar usuários IAM". A opção se auto-elimina, sem precisar conhecer a tecnologia.
 
+**Técnica de eliminação:** procurar contradição direta entre opção e requisito — ex.: opção diz "criar usuários IAM automaticamente" quando o requisito é "sem criar usuários IAM". A opção se auto-elimina, sem precisar conhecer a tecnologia.
+
 **Domínio:** Design Secure Architectures (30%)
 **Confiança atual:** Alto
+
+---
+
+### Camadas de Proteção: SG vs NACL vs WAF — 2026-07-02
+
+**Regra fundamental:** SG e NACL protegem recursos DENTRO da sua VPC. WAF protege serviços gerenciados de borda FORA dela.
+
+- **Security Group** (nível ENI/instância): EC2, RDS, ALB/NLB, Lambda em VPC, ElastiCache. Só ALLOW, stateful. **Não existe em:** API Gateway público, CloudFront, S3.
+- **NACL** (nível subnet): único lugar de rede da VPC com DENY. Não alcança endpoints públicos de serviços gerenciados.
+- **WAF** (Layer 7): só acopla em **CloudFront, ALB, API Gateway REST e AppSync** (nunca NLB!). Faz o que SG/NACL não fazem: IP set (block), rate-based rule por IP, SQLi/XSS, geo-blocking.
+
+**Tabela de decisão:**
+
+| Cenário | Resposta |
+|---------|----------|
+| Bloquear IP em EC2/subnet | NACL (DENY) |
+| Bloquear IP em API GW/CloudFront/ALB | WAF (IP set) |
+| Rate limiting por cliente | WAF (rate-based) |
+| SQLi/XSS | WAF |
+| DDoS volumétrico L3/L4 | Shield |
+| "WAF no NLB" | Pegadinha — não existe |
+
+**Técnica geral:** em Select com 2 requisitos, eliminar por cobertura — a certa atende os dois, distratores atendem um ou nenhum.
+
+**Domínio:** Design Secure Architectures (30%)
+**Confiança atual:** Médio
 
 ---
