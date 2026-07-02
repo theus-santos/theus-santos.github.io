@@ -242,6 +242,17 @@ Arredondar para inteiro mais próximo, exibir como `/1000`.
 - Distribuição por domínio proporcional ao peso do exame
 - Mix de dificuldades: intermediário, desafiador e enganoso
 - Foco em decisões arquiteturais, não leitura de código
+- Variar a posição da resposta correta entre A, B, C e D — nunca concentrar na mesma letra em questões consecutivas
+
+### Regras de Consistência para Select Two/Three
+
+Antes de publicar uma questão Select Two ou Select Three, verificar obrigatoriamente:
+
+1. **Cada resposta correta deve ser independentemente justificável** pelo cenário — nenhuma deve ser "a menos errada" entre opções ruins.
+2. **Cenários mistos exigem requisitos mistos:** se o cenário é 100% fault-tolerant → não incluir Savings Plans/RI como segunda resposta correta. Savings Plans/RI só são corretos quando o cenário menciona explicitamente workloads contínuos ou baseline previsível.
+3. **Spot + Savings Plans:** só combinam quando o cenário tem dois tipos de carga — uma fault-tolerant (Spot) e outra contínua (Savings Plans). Não usar essa combinação para workloads 100% fault-tolerant.
+4. **Nenhuma opção correta pode contradizer o cenário:** se o cenário diz "acesso raramente", S3 Standard-IA não pode ser correta. Se diz "tolerante a interrupção", Reserved Instance não é desconto relevante.
+5. **Testar cada opção correta isoladamente:** se retirar uma das respostas corretas, o requisito correspondente do cenário deve ficar sem atendimento.
 
 ### Tipos de Resposta
 
