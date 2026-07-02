@@ -74,3 +74,21 @@ Para acesso cross-account a dados criptografados com KMS CMK:
 **Confiança atual:** Alto
 
 ---
+
+### CloudFront múltiplos origins (Static + Dynamic) — 2026-07-02
+
+Uma distribuição CloudFront pode ter **múltiplos origins** — não precisa de duas soluções separadas.
+
+- **S3 como origin** → conteúdo estático cacheado na borda
+- **ALB como origin** → conteúdo dinâmico via rede backbone AWS
+
+Cache behaviors definem qual origin atende cada path (`/static/*` → S3, `/*` → ALB).
+
+**Armadilha de prova:** Global Accelerator **não aceita S3 como endpoint** (só EC2, ELB, Elastic IP, Lambda). Opções que combinam Global Accelerator + S3 são sempre erradas.
+
+**Truque:** Resposta simples (CloudFront com S3 + ALB) bate resposta complexa (Global Accelerator + CloudFront separados). Na SAA-C03, complexidade desnecessária = errado.
+
+**Domínio:** Design High-Performing Architectures (24%)
+**Confiança atual:** Médio
+
+---
