@@ -92,3 +92,25 @@ Cache behaviors definem qual origin atende cada path (`/static/*` → S3, `/*` �
 **Confiança atual:** Médio
 
 ---
+
+### IAM Identity Center + Active Directory — 2026-07-02
+
+**Federação:** a AWS confia no AD corporativo em vez de duplicar usuários. Fluxo:
+
+```
+Credencial corporativa → AD valida → AD Connector (ponte) → IAM Identity Center → Console AWS
+```
+
+- **Active Directory** = cadastro central de funcionários da empresa (on-premises)
+- **AD Connector** = proxy que encaminha autenticação para o AD on-premises
+- **AWS Directory Service** = infraestrutura de diretório — sozinho NÃO dá acesso ao console
+- **IAM Identity Center** = quem efetivamente concede acesso SSO ao console, sem criar usuário IAM
+
+**Truque de prova:** "credenciais corporativas/AD + console AWS + sem usuários IAM" → IAM Identity Center (ex-AWS SSO).
+
+**Técnica de eliminação:** procurar contradição direta entre opção e requisito — ex.: opção diz "criar usuários IAM automaticamente" quando o requisito é "sem criar usuários IAM". A opção se auto-elimina, sem precisar conhecer a tecnologia.
+
+**Domínio:** Design Secure Architectures (30%)
+**Confiança atual:** Alto
+
+---
