@@ -142,3 +142,23 @@ Credencial corporativa → AD valida → AD Connector (ponte) → IAM Identity C
 **Confiança atual:** Médio
 
 ---
+
+### [REVISAR] Bastion Host vs SSM Session Manager — 2026-07-02
+
+**Bastion host (jump box):** servidor em subnet pública usado como "ponte" SSH para instâncias privadas. Problemas clássicos: porta 22 exposta à internet + nenhum registro do que o admin faz na sessão.
+
+**SSM Session Manager:** substitui o bastion por completo. O SSM Agent na instância conecta **para fora** ao serviço SSM:
+- **Nenhuma porta de entrada** (nem 22, nem bastion, nem IP público)
+- Autenticação via **IAM** (MFA, permissão por instância)
+- **Grava cada comando digitado** no S3/CloudWatch Logs
+
+**Pegadinha central:** CloudTrail registra **chamadas de API AWS**, nunca o conteúdo de sessões SSH/shell. "Registro de sessões" = comandos digitados → Session Manager logging, não CloudTrail.
+
+**Técnica de verbo:** requisito diz "eliminar" → opção que apenas **reduz** (ex.: restringir SG a IPs corporativos — porta 22 ainda existe) está errada por definição.
+
+**Truque de prova:** "bastion / porta 22 / SSH + auditoria de sessões + menor complexidade" → SSM Session Manager.
+
+**Domínio:** Design Secure Architectures (30%)
+**Confiança atual:** Baixo
+
+---
