@@ -162,3 +162,66 @@ Credencial corporativa → AD valida → AD Connector (ponte) → IAM Identity C
 **Confiança atual:** Baixo
 
 ---
+
+### [REVISAR] EC2 Placement Groups — 2026-07-02
+
+Placement group = você dizendo à AWS **como posicionar fisicamente** as instâncias. 3 estratégias:
+
+| Estratégia | Posicionamento | Palavra-chave na prova |
+|-----------|----------------|------------------------|
+| **Cluster** | Todas juntas, mesmo rack, mesma AZ | "low latency", "high network throughput", HPC |
+| **Spread** | Cada uma em hardware distinto (máx. 7/AZ) | "reduce risk of simultaneous failure" |
+| **Partition** | Grupos em racks separados | Hadoop, Kafka, Cassandra |
+
+**Analogia:** cluster = carros lado a lado na mesma fileira; spread = um por andar; partition = vans por setor.
+
+**Insufficient capacity error** ao ADICIONAR instância num cluster group = o rack encheu. **Solução: stop/start de TODAS as instâncias do grupo** — a AWS realoca o grupo inteiro para onde todas caibam juntas.
+
+**Prevenção:** lançar todas as instâncias num único launch request, mesmo instance type.
+
+**Pegadinha:** "limite de 12 instâncias por placement group" NÃO existe (opção inventada, mesma família de NAT Multi-AZ e DAX multi-região).
+
+**Domínio:** Design High-Performing Architectures (24%)
+**Confiança atual:** Baixo
+
+---
+
+### Redshift ≠ Redis + Escala de Latências — 2026-07-02
+
+**Nomes parecidos, serviços opostos:** Red**shift** = data warehouse OLAP em disco (queries analíticas, sub-segundo na melhor hipótese). Red**is** (ElastiCache) = cache in-memory (microssegundos).
+
+**Escala de latência para decorar:**
+Redis/DAX (microssegundos) → DynamoDB (single-digit ms) → Aurora/RDS (dezenas de ms) → Redshift (sub-segundo+)
+
+**Pipeline IoT canônico:** Kinesis (ingere o stream) → Lambda (processa) → DynamoDB (serve em ms).
+
+**Domínio:** Design High-Performing Architectures (24%)
+**Confiança atual:** Médio
+
+---
+
+### SQS Standard duplica POR DESIGN — 2026-07-02
+
+Duas causas de mensagem duplicada:
+1. Visibility Timeout expira no meio do processamento → **corrigível** aumentando o timeout
+2. Infraestrutura do SQS Standard entrega 2x por design (**at-least-once**) → **nenhuma configuração impede**
+
+**"Processar exatamente uma vez" → SQS FIFO** (exactly-once + deduplicação por conteúdo). Visibility Timeout ajusta *quando* a mensagem reaparece, nunca *se* ela duplica.
+
+**Domínio:** Design Resilient Architectures (26%)
+**Confiança atual:** Baixo (errado 2x — revisar antes da prova)
+
+---
+
+### Direções de custo de transferência + StackSets — 2026-07-02
+
+**Hotel AWS:** entrar (internet → AWS) = grátis. Sair (AWS → internet) = paga (~$0,09/GB). Mesma região S3↔EC2 = grátis.
+
+**NAT Gateway cobra ~$0,045/GB processado** — tráfego S3 por NAT é desperdício puro; **Gateway Endpoint** (grátis) elimina.
+
+**CloudFormation StackSets** = mesmo template implantado em **múltiplas contas e regiões de uma vez**. Palavra-chave: "across accounts" / "toda a organização".
+
+**Domínio:** Design Cost-Optimized Architectures (20%)
+**Confiança atual:** Médio
+
+---
