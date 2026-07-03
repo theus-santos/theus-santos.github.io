@@ -225,3 +225,35 @@ Duas causas de mensagem duplicada:
 **Confiança atual:** Médio
 
 ---
+
+### Redis vs Memcached — 2026-07-02
+
+| | Redis | Memcached |
+|--|-------|-----------|
+| Threads | Single-threaded | **Multithreaded** ← palavra-chave exclusiva |
+| Estruturas | Sorted Sets, listas, pub/sub | Key-value simples |
+| Persistência/réplicas/failover | ✅ | ❌ (mas **Auto Discovery** detecta e substitui nós) |
+
+**Truque:** "multithreaded" → Memcached. "Persistência/Sorted Sets/failover" → Redis. **Global Datastore** = replicação de cache entre regiões (réplicas remotas read-only) — não serve para sessões com escrita.
+
+**Domínio:** Design High-Performing Architectures (24%)
+**Confiança atual:** Médio
+
+---
+
+### Golden Rules — Simulado Tutorials Dojo (erradas) — 2026-07-02
+
+1. **Lambda Function URL**: webhook HTTP direto para Lambda, sem API Gateway. "Most operationally efficient + webhook" → Function URL. SQS não aceita HTTP POST externo.
+2. **IAM User via CLI/API nasce SEM credenciais**: chamadas de API exigem **Access Keys** + permissões. Console = escolhe senha/keys na criação.
+3. **Portas**: SSH 22 | **RDP 3389** | MySQL 3306 | PostgreSQL 5432. "Remote Desktop não conecta" → inbound 3389 no SG.
+4. **Duração mínima S3**: Standard = nenhuma | IA = 30d | Glacier = 90d | Deep Archive = 180d. Dado temporário (horas) → **S3 Standard** (deletar antes do mínimo paga o período inteiro).
+5. **CloudFront origin failover** → **origin group** com 2 origins (ex.: 2 EC2 em AZs distintas). ASG não é origin; S3 não serve dinâmico.
+6. **Decoupling 3 camadas**: estático → S3 | app → ECS + Service Auto Scaling | banco → RDS Multi-AZ. Lambda não roda long-running (>15min); CloudFront não hospeda.
+7. **Governança multi-conta**: Organizations + Consolidated Billing (custo central) + **IAM cross-account roles** (admin sem criar usuários). VPC/AZ separadas ≠ autonomia de conta.
+8. **GPS/telemetria em tempo real + múltiplos consumers** → Kinesis. EMR = batch; AppStream = streaming de desktop (distrator); SQS = 1 consumer.
+9. **HPC + integração nativa S3 + POSIX** → **FSx for Lustre** (EFS não integra com S3).
+10. **"Reserve capacity in a specific AZ" sem compromisso** → **On-Demand Capacity Reservation**. Regional RI NÃO reserva capacidade (só desconto). Capacidade ≠ desconto.
+
+**Confiança atual:** Médio (revisar antes da prova)
+
+---
