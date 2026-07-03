@@ -274,3 +274,18 @@ Duas causas de mensagem duplicada:
 **Confiança atual:** Baixo nos 2 persistentes, Alto nos demais
 
 ---
+
+### [REVISAR] Mini-Simulado Cost-Optimized (calibração nova) — 6/9 (67%) — 2026-07-02
+
+Nível agora pareado com Tutorials Dojo (64% lá, 67% aqui). Erradas:
+
+1. **DynamoDB DAX vs On-Demand:** DAX = cache de LEITURA (resolve latência/leitura repetida). Não resolve throttling de ESCRITA nem custo de ociosidade (cluster cobra 24/7). Tráfego imprevisível + picos súbitos + ociosidade cara → **modo On-Demand** (escala instantânea, paga por requisição).
+2. **gp2 acopla IOPS ao tamanho (3 IOPS/GB):** encolher gp2 = perder IOPS. Volume gp2 grande "por causa das IOPS" → migrar para **gp3** (3.000 IOPS de baseline inclusas em qualquer tamanho + ~20% mais barato/GB). Otimização de EBS mais cobrada da SAA.
+3. **S3 Requester Pays:** "quem baixa deve pagar o próprio download" (datasets compartilhados com parceiros) → Requester Pays (requisitante autenticado paga transferência+requests; dono paga só storage). Presigned URL = controle de ACESSO, não transferência de CUSTO.
+
+**Acertadas (fixadas):** right-size antes de Savings Plan; Gateway Endpoint vs Interface (menor esforço/custo dominante); stop/start p/ dev com estado; CloudFront p/ egress de estático; Spot em EMR (master On-Demand); Fargate p/ containers intermitentes com baixa utilização.
+
+**Domínio:** Design Cost-Optimized Architectures (20%)
+**Confiança atual:** Médio
+
+---
