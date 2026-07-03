@@ -259,6 +259,16 @@ Meta: usuário pontuando ~65-75% no simulado, não 85%+. Regras obrigatórias:
 9. **Enunciados em estilo AWS:** parágrafos corridos (sem bullets), voz de negócio ("a company", "requires", "MOST cost-effective"), 60-120 palavras, requisitos entrelaçados no texto.
 10. **Proporção de dificuldade:** 20% intermediárias, 50% difíceis (detalhe fino), 30% enganosas (armadilha deliberada de leitura ou de "benefício não pedido").
 
+### Teto de Dificuldade — NÃO ultrapassar o nível SAA
+
+Regras de contenção (calibradas com feedback do usuário em 2026-07-02):
+
+- **Máximo 1-2 detalhes finos por questão** — nunca empilhar 3+ armadilhas na mesma questão (isso é nível SAP-C02).
+- **Não exigir aritmética de precificação** (calcular taxas de transição em escala, overhead de metadados em KB, projeções de fatura). SAA testa saber **que o problema existe** e qual padrão o resolve — não a matemática.
+- **Detalhes finos permitidos (nível SAA):** durações mínimas de storage classes, cobrança mínima de 128 KB no IA, limites de IOPS por tipo de volume, direções de custo de transferência, diferenças de modos (EFS, DynamoDB), o que cada mecanismo de compra garante.
+- **Detalhes proibidos (nível SAP):** custos exatos por requisição de API, overhead interno de serviços em bytes, tuning de parâmetros, otimizações que exigem conhecer whitepapers específicos.
+- **Teste de sanidade:** se a questão não se pareceria com nada do Tutorials Dojo SAA-C03, simplifique-a.
+
 ### Regras de Consistência para Select Two/Three
 
 Antes de publicar uma questão Select Two ou Select Three, verificar obrigatoriamente:
