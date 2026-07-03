@@ -244,6 +244,21 @@ Arredondar para inteiro mais próximo, exibir como `/1000`.
 - Foco em decisões arquiteturais, não leitura de código
 - Variar a posição da resposta correta entre A, B, C e D — nunca concentrar na mesma letra em questões consecutivas
 
+### Calibração de Dificuldade (nível prova real / Tutorials Dojo)
+
+Meta: usuário pontuando ~65-75% no simulado, não 85%+. Regras obrigatórias:
+
+1. **Sem sinalização de palavras-chave:** nunca usar negrito nos termos decisivos do enunciado (ex.: NÃO destacar "mesma região", "multithreaded", "IPv6"). O usuário deve encontrar a pista sozinho, como na prova real.
+2. **Todas as opções devem ser tecnicamente válidas** em algum contexto — o erro deve estar no encaixe com o cenário, nunca em opções absurdas. Máximo 1 opção "inventada" por questão, e apenas ocasionalmente.
+3. **Distratores de recurso real em contexto errado:** usar features verdadeiras da AWS aplicadas ao problema errado (ex.: Global Datastore para sessões, DataSync para HPC, Mountpoint para POSIX completo).
+4. **Diferencial em detalhe fino, não em serviço:** as opções devem compartilhar o mesmo serviço variando configuração/modo/classe (ex.: 4 opções de EFS variando modos; 4 mecanismos de compra EC2; 4 storage classes) — o acerto exige saber limites, durações mínimas, tetos de IOPS, direções de custo.
+5. **Cenários densos com informação irrelevante:** incluir 2-3 dados que não afetam a resposta (números de instâncias, nomes de stack, regiões) misturados às 1-2 pistas reais.
+6. **Cadeia de raciocínio de 2-3 passos:** a resposta não pode decorrer de uma única associação palavra→serviço; exigir eliminação sequencial (ex.: requisito 1 elimina duas, requisito 2 decide entre as restantes).
+7. **Duas opções "quase certas":** sempre incluir uma opção que resolve 80% do cenário e falha em exatamente um requisito — a diferença entre ela e a correta deve ser um único detalhe.
+8. **Incluir serviços de segunda linha:** App Runner, DataSync, Storage Gateway (3 tipos), Transfer Family, Mountpoint for S3, Batch, ParallelCluster, Outposts, Local Zones, Wavelength — a prova real cobra reconhecê-los como corretos ou como distratores.
+9. **Enunciados em estilo AWS:** parágrafos corridos (sem bullets), voz de negócio ("a company", "requires", "MOST cost-effective"), 60-120 palavras, requisitos entrelaçados no texto.
+10. **Proporção de dificuldade:** 20% intermediárias, 50% difíceis (detalhe fino), 30% enganosas (armadilha deliberada de leitura ou de "benefício não pedido").
+
 ### Regras de Consistência para Select Two/Three
 
 Antes de publicar uma questão Select Two ou Select Three, verificar obrigatoriamente:
