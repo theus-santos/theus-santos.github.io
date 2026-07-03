@@ -257,3 +257,20 @@ Duas causas de mensagem duplicada:
 **Confiança atual:** Médio (revisar antes da prova)
 
 ---
+
+### [REVISAR] Re-Quiz 2026-07-02 — Resultado 18/20 (90%)
+
+**Fixados no re-teste** (errados antes, certos agora): SQS FIFO exactly-once, SSM Session Manager, Aurora Global + Route 53, DynamoDB Global Tables, io2 Block Express, RDS Proxy + reserved concurrency, IAM Identity Center, placement groups, Beanstalk, Lambda Function URL, ZSET, cadeia CloudTrail→CW Logs→filter→alarme→SNS, duração mínima S3, Access Keys, RDP 3389, Egress-only IGW, EBS Encryption by Default, FSx Lustre.
+
+**Os 2 que persistem — revisar antes da prova:**
+
+1. **EFS Bursting vs Provisioned:** Bursting = poupança de créditos — acumula quando o uso está ABAIXO do baseline (50 MB/s por TB). Demanda **24/7 contínua** = créditos nunca recarregam = throttling permanente no baseline. Pergunta certa: "a demanda tem folga para recarregar créditos?" Se não → **Provisioned**. Não avaliar se o baseline "parece suficiente".
+
+2. **Capacity Reservation vs Savings Plan/RI:** capacidade e desconto são EIXOS INDEPENDENTES. SP e Regional RI = instrumentos financeiros, **nunca garantem capacidade**. "Não pode faltar capacidade na AZ X" + "sem compromisso de 1/3 anos" → **On-Demand Capacity Reservation** (cria/cancela livremente, sem desconto). Zonal RI garante capacidade MAS exige compromisso.
+
+**Padrão dos dois erros:** escolher o benefício que ninguém pediu (baseline "razoável", desconto não solicitado). Responder ao requisito literal.
+
+**Domínio:** High-Performing (1) + Cost-Optimized (2)
+**Confiança atual:** Baixo nos 2 persistentes, Alto nos demais
+
+---
